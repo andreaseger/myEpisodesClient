@@ -4,8 +4,22 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"regexp"
 	"testing"
 )
+func TestBuildURI(t *testing.T) {
+	uri := buildURI("testfeed", "testuid", "testpwd")
+	if m,_ := regexp.MatchString(`myepisodes\.com`, uri); !m {
+		t.Errorf("wrong base url: %v", uri)
+	}
+	if m,_ := regexp.MatchString(`feed=testfeed&uid=testuid&pwdmd5=`, uri); !m {
+		t.Errorf("wrong feed and user: %v", uri)
+	}
+	pwdmd5 := md5Pwd("testpwd")
+	if m,_ := regexp.MatchString(pwdmd5, uri); !m {
+		t.Errorf("pwdmd5 missing: %v", uri)
+	}
+}
 
 func TestParseRss(t *testing.T) {
 	file, e := ioutil.ReadFile("test-files/today.xml")

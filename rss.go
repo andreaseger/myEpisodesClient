@@ -39,10 +39,15 @@ func md5Pwd(pwd string) string {
 	h.Write([]byte(pwd))
 	return fmt.Sprintf("%x", h.Sum(nil))
 }
+func buildURI(feedname, uid, pwd string)(uri string) {
+	pwdmd5 := md5Pwd(pwd)
+	uri = "https://www.myepisodes.com/rss.php?feed=" + feedname + "&uid=" + uid +
+	"&pwdmd5=" + pwdmd5 + "&showignored=0&onlyunacquired=1&sort=ASC"
+	return
+}
 
 func getFeed(feedname, uid, pwd string) (episodes []Episode) {
-	pwdmd5 := md5Pwd(pwd)
-	uri := "https://www.myepisodes.com/rss.php?feed=#{feedname}&uid=#{uid}&pwdmd5=#{pwdmd5}&showignored=0&onlyunacquired=1&sort=ASC"
+	uri := buildURI(feedname, uid, pwd)
 	body := getRss(uri)
 	return parseFeed(body)
 }
