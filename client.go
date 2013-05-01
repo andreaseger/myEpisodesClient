@@ -1,21 +1,17 @@
-package main
+package myepisodes
 
 import (
 	"flag"
-	"fmt"
-	"io/ioutil"
-	"os"
+  "fmt"
 )
 
 var configfile = flag.String("config", "my_episodes.json", "config file for my episodes")
 
 func main() {
 	flag.Parse()
-	fmt.Println("configfile: ", *configfile)
-	file, e := ioutil.ReadFile(*configfile)
-	if e != nil {
-		fmt.Printf("File error: %v\n", e)
-		os.Exit(1)
-	}
-	fmt.Printf("%s\n", string(file))
+  config := ReadConfig(*configfile)
+  fmt.Println("%s",config.UserID)
 }
+
+
+

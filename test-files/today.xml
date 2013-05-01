@@ -1,0 +1,25 @@
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
+	<channel>
+		<title>My Episodes Today</title>
+		<link>http://www.myepisodes.com/</link>
+		<image>
+			 <url>http://www.myepisodes.com/img/myepisodes_logo.jpg</url>
+			 <title>www.myepisodes.com</title>
+			 <link>http://www.myepisodes.com/</link>
+		</image>
+		<description>www.MyEpisodes.com is a personlized and highly customizable digitized tv-guides capable of tuning itself for your watching habits.</description>
+		<language>en-us</language>
+					<item>
+						<guid isPermaLink="false">100-10-22</guid>
+						<title>[ NCIS ][ 10x22 ][ Revenge ][ 01-May-2013 ]</title>
+						<link>http://www.tvrage.com/NCIS/episodes/1065289034/10x22</link>
+						<description>&#60;h3&#62;NCIS&#60;/h3&#62;&#60;table border=&#39;0&#39;&#62;&#60;tr&#62;&#60;td&#62;&#60;b&#62;Episode Title:&#38;nbsp;&#38;nbsp;&#60;/b&#62;&#60;/td&#62;&#60;td&#62;Revenge&#60;/td&#62;&#60;/tr&#62;&#60;tr&#62;&#60;td&#62;&#60;b&#62;Episode #&#60;/b&#62;&#60;/td&#62;&#60;td&#62;10x22&#60;/td&#62;&#60;/tr&#62;&#60;tr&#62;&#60;td&#62;&#60;b&#62;Air Date:&#60;/b&#62;&#60;/td&#62;&#60;td&#62;01-May-2013&#60;/td&#62;&#60;/tr&#62;&#60;tr&#62;&#60;td&#62;&#60;b&#62;Air Time:&#60;/b&#62;&#60;/td&#62;&#60;td&#62;12:00&#60;/td&#62;&#60;/tr&#62;&#60;/table&#62;&#60;p&#62;Links:&#60;br&#62;&#60;a href=&#39;http://www.tvrage.com/NCIS&#39;&#62;[NCIS] guide at www.tvrage.com&#60;/a&#62;&#60;br&#62;&#60;a href=&#39;http://www.tvrage.com/NCIS/episodes/1065289034/10x22&#39;&#62;[Revenge] episode guide at www.tvrage.com&#60;/a&#62;</description>
+					</item>
+					<item>
+						<guid isPermaLink="false">8548-2-23</guid>
+						<title>[ New Girl ][ 02x23 ][ Virgins ][ 01-May-2013 ]</title>
+						<link>http://www.tvrage.com/New_Girl/episodes/1065291213/02x23</link>
+						<description>&#60;h3&#62;New Girl&#60;/h3&#62;&#60;table border=&#39;0&#39;&#62;&#60;tr&#62;&#60;td&#62;&#60;b&#62;Episode Title:&#38;nbsp;&#38;nbsp;&#60;/b&#62;&#60;/td&#62;&#60;td&#62;Virgins&#60;/td&#62;&#60;/tr&#62;&#60;tr&#62;&#60;td&#62;&#60;b&#62;Episode #&#60;/b&#62;&#60;/td&#62;&#60;td&#62;02x23&#60;/td&#62;&#60;/tr&#62;&#60;tr&#62;&#60;td&#62;&#60;b&#62;Air Date:&#60;/b&#62;&#60;/td&#62;&#60;td&#62;01-May-2013&#60;/td&#62;&#60;/tr&#62;&#60;tr&#62;&#60;td&#62;&#60;b&#62;Air Time:&#60;/b&#62;&#60;/td&#62;&#60;td&#62;13:00&#60;/td&#62;&#60;/tr&#62;&#60;/table&#62;&#60;p&#62;Links:&#60;br&#62;&#60;a href=&#39;http://www.tvrage.com/The_New_Girl&#39;&#62;[New Girl] guide at www.tvrage.com&#60;/a&#62;&#60;br&#62;&#60;a href=&#39;http://www.tvrage.com/New_Girl/episodes/1065291213/02x23&#39;&#62;[Virgins] episode guide at www.tvrage.com&#60;/a&#62;</description>
+					</item>
+	</channel>
+</rss>		
