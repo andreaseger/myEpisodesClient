@@ -7,6 +7,15 @@ import (
 	"regexp"
 	"testing"
 )
+
+func TestGetRSS(t *testing.T) {
+	uri := buildURI("today", "hubert.h", "foooo")
+	_,e := getRss(uri)
+	if m,_:=regexp.MatchString(`ContentLength`, e.Error());!m {
+		t.Errorf("getRss failed %v", e)
+	}
+}
+
 func TestBuildURI(t *testing.T) {
 	uri := buildURI("testfeed", "testuid", "testpwd")
 	if m,_ := regexp.MatchString(`myepisodes\.com`, uri); !m {

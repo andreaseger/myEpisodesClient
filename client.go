@@ -11,4 +11,5 @@ func main() {
 	flag.Parse()
 	config := ReadConfig(*configfile)
 	fmt.Println("%s", config.UserID)
+  _ = getFeed("today", config.UserID, config.Password)
 }

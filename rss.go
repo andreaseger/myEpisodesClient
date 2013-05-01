@@ -6,6 +6,9 @@ import (
 	"fmt"
 	"regexp"
 	"strconv"
+	"net/http"
+	"io/ioutil"
+	"errors"
 )
 
 //func get_feed(feed string)
@@ -50,11 +53,26 @@ func buildURI(feedname, uid, pwd string)(uri string) {
 
 func getFeed(feedname, uid, pwd string) (episodes []Episode) {
 	uri := buildURI(feedname, uid, pwd)
-	body := getRss(uri)
+	body,_ := getRss(uri)
 	return parseFeed(body)
 }
-func getRss(uri string) (body []byte) {
-	return
+func getRss(uri string) ([]byte,error) {
+	resp, err := http.Get(uri)
+	if err != nil {
+		fmt.Println("Error fetching feed: %v", err)
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode >= 300 {
+		return nil, errors.New("StatusCode: " + string(resp.StatusCode))
+	}
+	if resp.ContentLength == 0{
+		return nil, errors.New("ContentLength = 0")
+	}
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("Error reading body: %v", err)
+	}
+	return body, nil
 }
 
 func parseRss(feed []byte) (rss RSS) {
