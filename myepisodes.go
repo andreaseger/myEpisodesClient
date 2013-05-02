@@ -14,6 +14,7 @@ import (
 //func get_feed(feed string)
 
 type Episode struct {
+	ShowID				int
 	Series        string
 	SeasonNumber  int
 	EpisodeNumber int
@@ -35,6 +36,12 @@ type item struct {
 	Description string `xml:"description"`
 }
 
+const (
+	feedBaseUri = "https://www.myepisodes.com/rss.php"
+	loginBaseUri = "https://www.myepisodes.com/login.php"
+	updateBaseUri = "https://www.myepisodes.com/myshows.php"
+)
+
 var titleRegex = regexp.MustCompile(`\[ (?P<series>.+) \]\[ (?P<season>\d+)x(?P<episode>\d+) \]\[ (?P<title>.+) \]\[ (?P<date>.+) \]`)
 
 func md5Pwd(pwd string) string {
@@ -42,20 +49,51 @@ func md5Pwd(pwd string) string {
 	h.Write([]byte(pwd))
 	return fmt.Sprintf("%x", h.Sum(nil))
 }
-func buildURI(feedname, uid, pwd string)(uri string) {
+
+func buildLoginURI(uid, pwd string)(string) {
+	return loginBaseUri + "?action=Login&username=" + uid + "&password=" + pwd
+}
+func buildFeedURI(feedname, uid, pwd string)(uri string) {
 	pwdmd5 := md5Pwd(pwd)
-	uri = "https://www.myepisodes.com/rss.php?feed=" + feedname +
+	uri = feedBaseUri + "?feed=" + feedname +
 		"&uid=" + uid +
 		"&pwdmd5=" + pwdmd5 +
 		"&showignored=0&onlyunacquired=1&sort=ASC"
 	return
 }
+func buildUpdateURI(episode Episode)(string) {
+	return updateBaseUri + "?action=Update&showid=" + string(episode.ShowID) +
+			"&season=" + string(episode.SeasonNumber) +
+			"&episode=" + string(episode.EpisodeNumber) + "&seen=0"
+}
 
-func getFeed(feedname, uid, pwd string) (episodes []Episode) {
-	uri := buildURI(feedname, uid, pwd)
+func GetCookie(uid,pwd string)([]string) {
+	client := &http.Client{}
+	req, _ := http.NewRequest("POST", buildLoginURI(uid, pwd), nil)
+	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+	resp, _ := client.Do(req)
+
+	fmt.Println("cookie: %v", resp.Header["set-cookie"])
+	return resp.Header["set-cookie"]
+}
+
+func GetFeed(feedname, uid, pwd string) (episodes []Episode) {
+	uri := buildFeedURI(feedname, uid, pwd)
 	body,_ := getRss(uri)
 	return parseFeed(body)
 }
+
+func (e Episode) MarkAquired(cookie []string)(bool) {
+	client := &http.Client{}
+	req, _ := http.NewRequest("POST", buildUpdateURI(e), nil)
+	req.Header.Add("Cookie", "cookie")
+	resp, _ := client.Do(req)
+	if resp.StatusCode == 200 {
+		return true
+	}
+	return false
+}
+
 func getRss(uri string) ([]byte,error) {
 	resp, err := http.Get(uri)
 	if err != nil {
