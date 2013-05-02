@@ -31,6 +31,7 @@ type items struct {
 	ItemList []item   `xml:"item"`
 }
 type item struct {
+	GUID				string `xml:"guid"`
 	Title       string `xml:"title"`
 	Link        string `xml:"link"`
 	Description string `xml:"description"`
@@ -41,8 +42,8 @@ const (
 	loginBaseUri = "https://www.myepisodes.com/login.php"
 	updateBaseUri = "https://www.myepisodes.com/myshows.php"
 )
-
 var titleRegex = regexp.MustCompile(`\[ (?P<series>.+) \]\[ (?P<season>\d+)x(?P<episode>\d+) \]\[ (?P<title>.+) \]\[ (?P<date>.+) \]`)
+var guidRegex = regexp.MustCompile(`(\d+)-(\d+)-(\d+)`)
 
 func md5Pwd(pwd string) string {
 	h := md5.New()
@@ -73,7 +74,7 @@ func GetCookie(uid,pwd string)([]string) {
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	resp, _ := client.Do(req)
 
-	fmt.Println("cookie: %v", resp.Header["set-cookie"])
+	fmt.Printf("cookie: %v\n", resp.Header["set-cookie"])
 	return resp.Header["set-cookie"]
 }
 
@@ -97,7 +98,7 @@ func (e Episode) MarkAquired(cookie []string)(bool) {
 func getRss(uri string) ([]byte,error) {
 	resp, err := http.Get(uri)
 	if err != nil {
-		fmt.Println("Error fetching feed: %v", err)
+		fmt.Printf("Error fetching feed: %v\n", err)
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode >= 300 {
@@ -108,7 +109,7 @@ func getRss(uri string) ([]byte,error) {
 	}
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Println("Error reading body: %v", err)
+		fmt.Printf("Error reading body: %v\n", err)
 	}
 	return body, nil
 }
@@ -116,14 +117,16 @@ func getRss(uri string) ([]byte,error) {
 func parseRss(feed []byte) (rss RSS) {
 	err := xml.Unmarshal(feed, &rss)
 	if err != nil {
-		fmt.Println("Error parsing xml: %v", err)
+		fmt.Printf("Error parsing xml: %v\n", err)
 	}
 	return
 }
 func parseFeed(feed []byte) (episodes []Episode) {
 	rss := parseRss(feed)
 	for _, item := range rss.Items.ItemList {
-		episodes = append(episodes, extractEpisode(item.Title))
+		episode := extractEpisode(item.Title)
+		episode.ShowID,_ = strconv.Atoi(guidRegex.FindStringSubmatch(item.GUID)[1])
+		episodes = append(episodes, episode)
 	}
 	return
 }
