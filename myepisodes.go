@@ -74,8 +74,8 @@ func GetCookie(uid,pwd string)([]string) {
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	resp, _ := client.Do(req)
 
-	fmt.Printf("cookie: %v\n", resp.Header["set-cookie"])
-	return resp.Header["set-cookie"]
+	fmt.Printf("cookie: %v\n", resp.Header)
+	return resp.Header["Set-Cookie"]
 }
 
 func GetFeed(feedname, uid, pwd string) (episodes []Episode) {
